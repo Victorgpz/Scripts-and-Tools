@@ -58,6 +58,10 @@ except socket.gaierror:
     print("\nHostname couldn't be resolved")
     sys.exit()
 
+except:
+    print("Threading Error")
+    sys.exit()
+
 print("\n")
 print("-"*50)
 print("Scan Completed in {} seconds ".format(round(time.perf_counter(),2)))
