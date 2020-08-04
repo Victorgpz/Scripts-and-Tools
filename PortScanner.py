@@ -2,6 +2,8 @@
 #Tool for Scanning Open ports in a Network
 #Written by Abhijith A
 #Date: 04-08-2020
+#Still a prototype
+
 
 import sys,socket
 import threading
@@ -30,12 +32,12 @@ def scan(port):
      if result == 0:
          print(" Port {} is open ".format(port))
      s.close()
-     print(time.perf_counter())
+     #print(time.perf_counter())
 
 threads = []
 
 try:
-    for i in range(440,449):
+    for i in range(1,65535):
         t = threading.Thread(target=scan,args=[i])
         t.start()
         threads.append(t)
