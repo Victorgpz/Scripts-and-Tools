@@ -1,9 +1,11 @@
 #!/bin/python3
-#Tool for Scanning Open port in a Network
+#Tool for Scanning Open ports in a Network
 #Written by Abhijith A
 #Date: 04-08-2020
 
 import sys,socket
+import threading
+import time
 from datetime import datetime
 
 if len(sys.argv) == 2:
@@ -13,19 +15,33 @@ else:
     print("Syntax: python3 portscanner.py <ipv4 address>")
     sys.exit()
 
-print("-"*100)
+print("-"*50)
 print("Scanning started at "+ str(datetime.now()))
 print("Checking for Open ports from 1 - 65535")
-print("-"*100)
+print("-"*50)
+print("\n")
+
+
+def scan(port):
+
+     s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+     socket.setdefaulttimeout(1)
+     result = s.connect_ex((target,port))
+     if result == 0:
+         print(" Port {} is open ".format(port))
+     s.close()
+     print(time.perf_counter())
+
+threads = []
 
 try:
-    for port in range(1,65535):
-        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        socket.setdefaulttimeout(1)
-        result = s.connect_ex((target,port))
-        if result == 0:
-            print(" Port {} is open ".format(port))
-        s.close()
+    for i in range(440,449):
+        t = threading.Thread(target=scan,args=[i])
+        t.start()
+        threads.append(t)
+
+    for thread in threads:
+        thread.join()
 
 except KeyboardInterrupt:
     print("\nProcess Interrupted")
@@ -33,13 +49,15 @@ except KeyboardInterrupt:
 
 except socket.error:
     print("\nConnection Problem with Server")
-    print("Check the Connectiona and try again...")
+    print("Check the Connections and try again...")
     sys.exit()
 
 except socket.gaierror:
     print("\nHostname couldn't be resolved")
     sys.exit()
-    
-print("-"*100)
-print("Scan Completed at "+ str(datetime.now()))
-print("-"*100)
+
+print("\n")
+print("-"*50)
+print("Scan Completed in {} seconds ".format(round(time.perf_counter(),2)))
+print("-"*50)
+sys.exit()
