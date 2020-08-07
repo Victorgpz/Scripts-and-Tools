@@ -2,6 +2,8 @@
 #Tool for Scanning Open ports in a Network
 #Written by Abhijith A
 #Date: 04-08-2020
+#edited by @victorgpz
+#Date: 07-08-2020
 #Still a prototype
 
 from queue import Queue
@@ -9,20 +11,33 @@ import sys,socket
 import threading
 import time
 from datetime import datetime
+import argparse
+start=time.time()
+ap=argparse.ArgumentParser();
+ap.add_argument("-t","--host",required=True,
+help="target ip adderss")
+ap.add_argument("-p","--port",help="")
+args=vars(ap.parse_args())
+
 
 queue = Queue()
 open_ports = []
+op=[]
 
-if len(sys.argv) == 2:
-    target = socket.gethostbyname(sys.argv[1])
+if not args["port"]:
+    for i in range(65535):
+     queue.put(i)
+    op.append(1)
+    op.append(65535)
 else:
-    print("Wrong number of arguments provided")
-    print("Syntax: python3 portscanner.py <ipv4 address>")
-    sys.exit()
+    op=args["port"].split("-")
+    for i in range(int(op[0]),int(op[1])+1):
+        queue.put(i)
+target=args["host"]
 
 print("-"*50)
 print("Scanning started at "+ str(datetime.now()))
-print("Checking for Open ports from 1 - 65535")
+print("Checking for Open ports from {0} - {1}".format(int(op[0]),int(op[1])))
 print("-"*50)
 print("\n")
 
@@ -39,8 +54,6 @@ def scan(port):
 
 
 threads = []
-for port in range(65535):
-    queue.put(port)
 
 def run():
        try:
@@ -96,10 +109,10 @@ except socket.gaierror:
 except:
     print("Threading Error")
     sys.exit()
-
+end=time.time()
 print("\n")
 print("-"*50)
 print("The open ports are ",open_ports)
-print("Scan Completed in {} seconds ".format(round(time.perf_counter(),2)))
+print("Scan Completed in {} seconds ".format(round(end-start,2)))
 print("-"*50)
 sys.exit()
