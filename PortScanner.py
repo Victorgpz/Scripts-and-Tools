@@ -13,10 +13,10 @@ import time
 from datetime import datetime
 import argparse
 start=time.time()
+#Arguments Parsing
 ap=argparse.ArgumentParser()
 ap.add_argument("-t","--host",required=True , help="Target ip adderss or hostname ,eg: -t 127.0.0.1 ")
 ap.add_argument("-p","--port",help="Target Port Range ,eg: -p 0-1000")
-
 args=vars(ap.parse_args())
 
 
@@ -47,6 +47,7 @@ except:
     print("Syntax: python PortScanner.py -t <ip> -p <port_range>")
     print("Example: python PortScanner.py -t 127.0.0.1 -p 0-1000")
     sys.exit()
+
 def scan(port):
     try:
          s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -114,6 +115,7 @@ except socket.gaierror:
 except:
     print("Threading Error")
     sys.exit()
+    
 end=time.time()
 print("\n")
 print("-"*50)
