@@ -13,10 +13,10 @@ import time
 from datetime import datetime
 import argparse
 start=time.time()
-ap=argparse.ArgumentParser();
-ap.add_argument("-t","--host",required=True,
-help="target ip adderss")
-ap.add_argument("-p","--port",help="")
+ap=argparse.ArgumentParser()
+ap.add_argument("-t","--host",required=True , help="Target ip adderss or hostname ,eg: -t 127.0.0.1 ")
+ap.add_argument("-p","--port",help="Target Port Range ,eg: -p 0-1000")
+
 args=vars(ap.parse_args())
 
 
@@ -24,24 +24,29 @@ queue = Queue()
 open_ports = []
 op=[]
 
-if not args["port"]:
-    for i in range(65535):
-     queue.put(i)
-    op.append(1)
-    op.append(65535)
-else:
-    op=args["port"].split("-")
-    for i in range(int(op[0]),int(op[1])+1):
-        queue.put(i)
-target=args["host"]
+try:
+    if not args["port"]:
+        for i in range(65535):
+         queue.put(i)
+        op.append(1)
+        op.append(65535)
+    else:
+        op=args["port"].split("-")
+        for i in range(int(op[0]),int(op[1])+1):
+            queue.put(i)
+    target=args["host"]
 
-print("-"*50)
-print("Scanning started at "+ str(datetime.now()))
-print("Checking for Open ports from {0} - {1}".format(int(op[0]),int(op[1])))
-print("-"*50)
-print("\n")
+    print("-"*50)
+    print("Scanning started at "+ str(datetime.now()))
+    print("Checking for Open ports from {0} - {1}".format(int(op[0]),int(op[1])))
+    print("-"*50)
+    print("\n")
 
-
+except:
+    print("Wrong Syntax")
+    print("Syntax: python PortScanner.py -t <ip> -p <port_range>")
+    print("Example: python PortScanner.py -t 127.0.0.1 -p 0-1000")
+    sys.exit()
 def scan(port):
     try:
          s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
