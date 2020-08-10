@@ -3,7 +3,6 @@
 #Written by Abhijith A
 #Date: 04-08-2020
 #edited by @victorgpz
-#Date: 07-08-2020
 #Still a prototype
 
 from queue import Queue
