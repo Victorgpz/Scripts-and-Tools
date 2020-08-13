@@ -19,7 +19,7 @@ ap=argparse.ArgumentParser();
 ap.add_argument("-t","--host",required=True,
 help="target ip adderss")
 ap.add_argument("-p","--port",help="port range")
-ap.add_argument("-z","--thread",help="no of threads")
+ap.add_argument("-z","--thread",default=100,help="no of threads")
 args=vars(ap.parse_args())
 
 open_ports = []
@@ -27,16 +27,14 @@ op=[]
 
 host = args["host"]
 
-if not args["thread"]:
-    thread=100
-else:
-    thread=int(args["thread"])
+
 
 if not args["port"]:
     op.append(1)
     op.append(65535)
 else:
     op=args["port"].split("-")
+
 
 print("-"*50)
 print("Scanning started at "+ str(datetime.now()))
