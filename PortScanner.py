@@ -26,7 +26,7 @@ open_ports = []
 op=[]
 
 host = args["host"]
-
+thread=int(args["thread"])
 
 
 if not args["port"]:
