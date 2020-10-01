@@ -6,15 +6,12 @@
 #Date: 12-08-2020
 #Still a prototype
 
-
 import threading, socket, sys, time
 from queue import Queue
 from datetime import datetime
 import argparse
 
 print_lock = threading.Lock()
-
-
 
 start=time.time()
 
@@ -30,7 +27,9 @@ op=[]
 
 host = args["host"]
 
+
 thread=int(args["thread"])
+
 
 if not args["port"]:
     op.append(1)
