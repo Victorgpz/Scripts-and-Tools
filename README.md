@@ -1,6 +1,6 @@
 # Scripts-and-Tools
 
-Script and Tools for making life easier.
+Script and Tools.
 
 1.portScanner.py
 
